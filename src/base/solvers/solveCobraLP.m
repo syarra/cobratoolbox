@@ -1128,11 +1128,11 @@ switch solver
         else
             clinprog = @(f,A,b,Aeq,beq,lb,ub,options) linprog(f,A,b,Aeq,beq,lb,ub,options);
         end
-        
+
         if optTol < 1e-8
             optTol = optTol * 100; %make sure, that we are within the range of allowed values.
         end
-        
+
         linprogOptions = optimoptions('linprog','Display',matlabPrintLevel,optToleranceParam,optTol*0.01,constTolParam,feasTol);
         %Replace all options if they are provided by the solverParameters
         %struct
@@ -1345,7 +1345,7 @@ switch solver
                 %Lets check, by solving an additional LP with no objective.
                 %If that LP has a solution, its unbounded. If it doesn't
                 %its infeasible.
-                Solution = ILOGcplex.Solution;                
+                Solution = ILOGcplex.Solution;
                 ILOGcplex.Model.obj(:) = 0;
                 ILOGcplex.solve();
                 origStatNew   = ILOGcplex.Solution.status;
@@ -1500,8 +1500,8 @@ switch solver
         % a more reasonable d1 and should be more numerically robust. -Ronan
         % d1=0;
         % d2=1e-6;
-        d1 = 5e-4;
-        d2 = 5e-4;
+        d1 = 5e-8;
+        d2 = 5e-6;
 
         options = pdcoSet;
         % options.FeaTol    = 1e-12;
@@ -1528,7 +1528,7 @@ switch solver
         if exist('pdco_method', 'var') == 1
             options.Method = pdco_method;
         else
-            options.Method = 1; %Cholesky
+            options.Method = 4; %Cholesky
         end
         if exist('pdco_maxiter', 'var') == 1
             options.MaxIter = pdco_maxiter;
@@ -1540,7 +1540,7 @@ switch solver
         options.Print=printLevel;
 
         [x,y,w,inform,PDitns,CGitns,time] = ...
-            pdco(osense*c,A,b,lb,ub,d1,d2,options,x0,y0,z0,xsize,zsize);
+           pdco(osense*c,A,b,lb,ub,d1,d2,options,x0,y0,z0,xsize,zsize);
         f= c'*x;
         % inform = 0 if a solution is found;
         %        = 1 if too many iterations were required;
