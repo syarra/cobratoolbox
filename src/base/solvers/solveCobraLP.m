@@ -1528,7 +1528,7 @@ switch solver
         if exist('pdco_method', 'var') == 1
             options.Method = pdco_method;
         else
-            options.Method = 4; %Cholesky
+            options.Method = 3; % LSMR
         end
         if exist('pdco_maxiter', 'var') == 1
             options.MaxIter = pdco_maxiter;
